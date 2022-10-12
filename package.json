@@ -1,0 +1,27 @@
+{
+  "name": "@debugger_supreme/db-sdk",
+  "version": "0.0.1-beta.1",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.m.js",
+  "package": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "build": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap",
+    "lint": "eslint --fix src test",
+    "test": "jest"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "microbundle": "^0.15.1"
+  },
+  "dependencies": {
+    "axios": "^1.1.2"
+  }
+}
