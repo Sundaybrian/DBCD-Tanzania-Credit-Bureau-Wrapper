@@ -2,7 +2,7 @@
 <h1> Dun & Bradstreet Tanzania Credit Bureau (TZ) API Wrapper for Nodejs (still in beta) </h1>
 </p>
 
-The Unofficial [Dun & Bradstreet Tanzania Credit Bureau](https://creditinfo.co.tz) API wrapper for Nodejs.
+The Unofficial [Dun & Bradstreet Tanzania Credit Bureau](https://dnbsame.com/) API wrapper for Nodejs.
 
 - [WSDL](https://cweb.dnbtanzania.com/TanWebsite/Services/LiveRequestService.svc?wsdl) (requires authentication)
 
@@ -107,7 +107,7 @@ client
   .then(function (results) {
     console.log({ results  });
   });
-  
+
 ```
 
 ### SingleHit 
