@@ -1,3 +1,12 @@
+
+export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
+    Pick<T, Exclude<keyof T, Keys>>
+    & {
+        [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
+    }[Keys]
+
+
+
 export type Config = {
     username: string;
     baseUrl?: string;
@@ -66,8 +75,8 @@ export interface SEARCH_CONSUMER_RESULT {
     "DOB": string;
     "GENDER": string;
     "NATIONALITY": string;
-    "IDENTIFIER-TYPE": string;
-    "IDENTIFIER-NUMBER": string;
+    "IDENTIFIER-TYPE": string | {};
+    "IDENTIFIER-NUMBER": string | {};
     "ADDRESS": string;
     "MOBILE-NUMBER": string;
     "MATCHED-PARAMETER": string;
@@ -76,7 +85,7 @@ export interface SEARCH_CONSUMER_RESULT {
 
 
 export interface SEARCH_CONSUMER_RESULT_LIST {
-    
+
     "SEARCH-RESULT-LIST": {
         "SEARCH-RESULT-ITEM": Partial<SEARCH_CONSUMER_RESULT>[]
     }
@@ -85,12 +94,20 @@ export interface SEARCH_CONSUMER_RESULT_LIST {
 
 export interface DBERROR {
     "ERROR-LIST": {
-        "ERROR-CODE": string[] | string;
+        "ERROR-CODE": string[];
     }
 }
 
 
-export type DBResponseBody = DBERROR | SEARCH_CONSUMER_RESULT_LIST
+export interface DBResponseBody {
+    "SEARCH-RESULT-LIST"?: {
+        "SEARCH-RESULT-ITEM": Partial<SEARCH_CONSUMER_RESULT>[]
+    }
+
+    "ERROR-LIST"?: {
+        "ERROR-CODE": string[];
+    }
+};
 
 
 export interface DBResponseXML {
@@ -110,7 +127,13 @@ export interface DBResponseXML {
                 }
             }
         },
-        "BODY": DBResponseBody
+        "BODY": DBResponseBody;
     }
 }
+
+export interface CustomDBJsonResponse {
+    hasError: boolean;
+    results: Partial<SEARCH_CONSUMER_RESULT>[] | string[];
+}
+
 
