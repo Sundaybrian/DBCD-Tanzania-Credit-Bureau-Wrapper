@@ -1,7 +1,7 @@
 import { Config } from "./types";
 import axios, { Axios } from "axios"
 import parser from "xml2json";
-import { DBResponse, DBResponseXML, CustomDBJsonResponse } from "src/types"
+import { DBResponse, DBResponseXML, CustomDBJsonResponse } from "./types"
 
 
 
@@ -16,6 +16,11 @@ export abstract class Base {
         this.username = config.username;
         this.password = config.password;
         this.baseUrl = config.baseUrl ?? "https://cweb.dnbtanzania.com/TanWebsite/Services/LiveRequestService.svc?wsdl";
+
+        // console.log({
+        //     u: this.username,
+        //     p: this.password
+        // })
 
         this.client = axios.create({
             headers: {

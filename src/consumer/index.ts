@@ -1,15 +1,15 @@
-import { Base } from "src/base";
+import { Base } from "../base";
 import { SEARCH_PARAMETERS, CustomDBJsonResponse } from "src/types";
-import { ConsumerSearch } from "./helper"
+import { buildXml } from "./helper"
 
 
-export class Consumer extends Base {
+export class ConsumerSearch extends Base {
 
     async searchConsumerMultiHit(data: SEARCH_PARAMETERS): Promise<CustomDBJsonResponse> {
 
-        const xml = ConsumerSearch(data);
+        const xml = buildXml({ username: this.username, password: this.password }, data);
 
-        const response: CustomDBJsonResponse = await this.invoke(xml);
+        const response = await this.invoke(xml) as CustomDBJsonResponse;
 
         return response
 
