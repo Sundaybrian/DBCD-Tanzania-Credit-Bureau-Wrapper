@@ -1,4 +1,5 @@
 # Logs
+sdk-test/
 logs
 *.log
 npm-debug.log*

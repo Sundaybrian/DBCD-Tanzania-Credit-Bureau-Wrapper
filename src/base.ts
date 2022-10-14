@@ -1,12 +1,14 @@
 import { Config } from "./types";
 import axios, { Axios } from "axios"
+import parser from "xml2json";
+import { DBResponse } from "src/types"
 
 
 
 export abstract class Base {
-    private username: string;
+    public username: string;
     private baseUrl: string;
-    private password: string;
+    public password: string;
     private client: Axios;
 
 
@@ -26,11 +28,21 @@ export abstract class Base {
 
 
     protected invoke<T>(
-        data: any
-    ): Promise<T> {
+        payload: any
+    ): Promise<DBResponse> {
         // const config
-        return this.client.post(this.baseUrl, data).then(response => {
-            return response.data
+        return this.client.post(this.baseUrl, payload).then((response) => {
+
+            const results = parser.toJson(response.data, {
+                object: true,
+                reversible: false,
+                coerce: false,
+                sanitize: true,
+                trim: true,
+            }) as any as DBResponse;
+
+            return results;
+
         }).catch(err => { throw err })
 
 

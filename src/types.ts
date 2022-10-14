@@ -5,7 +5,8 @@ export type Config = {
 }
 
 export type REPORT_ID = 14616 | 14715;
-export type NATIONALITIES = "TZ" ;
+export type NATIONALITIES = "TZ";
+export type _PURPOSE_OF_INQUIRY = 1 | 2 | 3 | 4;
 
 export interface SEARCH_PARAMETERS {
     NAME: string;
@@ -14,7 +15,11 @@ export interface SEARCH_PARAMETERS {
     SURROGATES: {
         NATIONALITY: NATIONALITIES;
         DATEOFBIRTH: string;
-    }
+    },
+    ACCOUNTNUMBER?: string,
+    CUSTOMERID?: string,
+    PURPOSE_OF_INQUIRY: _PURPOSE_OF_INQUIRY
+
 
 }
 
@@ -34,12 +39,24 @@ export enum SUBJECT_TYPE {
 }
 
 
-export declare type ConsumerDto = {
-
-}
-
-
 // will be a union type i guess
-export declare type ConsumerResponse = null;
+export interface DBResponse {
+    "s:Envelope": {
+        "xmlns:s": string;
+        "s:Body": {
+            "GetLiveCIRResponse": {
+                "xmlns": string;
+                "GetLiveCIRResult": {
+                    "xmlns:a": string;
+                    "xmlns:i": string;
+                    "a:IsSuccess": string;
+                    "a:ResponseXML": string;
+                }
+            }
+
+        }
+
+    }
+};
 
 
