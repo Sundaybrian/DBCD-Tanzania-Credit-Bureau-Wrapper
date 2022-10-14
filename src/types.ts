@@ -99,33 +99,50 @@ export interface DBERROR {
 }
 
 
+
+
 export interface DBResponseBody {
     "SEARCH-RESULT-LIST"?: {
         "SEARCH-RESULT-ITEM": Partial<SEARCH_CONSUMER_RESULT>[]
     }
 
     "ERROR-LIST"?: {
-        "ERROR-CODE": string[];
+        "ERROR-CODE": string[] | string;
     }
 };
 
 
+export interface RequestParameters {
+    "REPORT-PARAMETERS": {
+        "SEARCH-REQUEST-ID": string;
+        "REPORT-ID": string;
+        "SUBJECT-TYPE": string;
+        "RESPONSE-TYPE": string;
+    }
+}
+
+
+export interface ReportParameters {
+
+    "SEARCH-REQUEST-ID": string;
+    "REPORT-ID": string;
+    "SUBJECT-TYPE": string;
+    "RESPONSE-TYPE": string;
+
+}
+
 export interface DBResponseXML {
     "DATAPACKET": {
         "REQUEST-ID": string;
+        "MERGER_NOTE?": any;
+        "ReportDetails"?: NotFoundReportDetails;
+        "SearchDetails"?: NotFoundSearch;
         "HEADER": {
             "RESPONSE-TYPE": {
                 "CODE"?: string;
                 "DESCRIPTION": string;
             }
-            "REQUEST-PARAMETERS"?: {
-                "REPORT-PARAMETERS": {
-                    "SEARCH-REQUEST-ID": string;
-                    "REPORT-ID": string;
-                    "SUBJECT-TYPE": string;
-                    "RESPONSE-TYPE": string;
-                }
-            }
+            "REQUEST-PARAMETERS"?: RequestParameters;
         },
         "BODY": DBResponseBody;
     }
@@ -133,7 +150,47 @@ export interface DBResponseXML {
 
 export interface CustomDBJsonResponse {
     hasError: boolean;
-    results: Partial<SEARCH_CONSUMER_RESULT>[] | string[];
+    errors: string[] | null;
+    results: Partial<SEARCH_CONSUMER_RESULT>[] | null;
+    requestParams: ReportParameters | null;
 }
+
+
+
+export interface NotFoundReportDetails {
+
+    "ReportDetails": {
+        "CIR_NUMBER": string;
+        "RUID": string;
+        "USER_ID": string;
+        "REPORT_ORDER_DATE": string;
+        "INSTITUTION_NAME": string;
+    }
+
+}
+
+
+export interface NotFoundSearch {
+
+    "SearchDetails": {
+        "NAME": string;
+        "SEARCH_SCORE": string;
+        "NATIONALITY": string;
+        "DATE_OF_BIRTH": string;
+        "RN": string;
+    } | any
+
+}
+
+
+export interface NotFoundResponse {
+    "DATAPACKET": {
+        "ReportDetails": NotFoundReportDetails;
+        "SearchDetails": NotFoundSearch;
+        "SearchAccountDetails": {}
+    }
+
+}
+
 
 
