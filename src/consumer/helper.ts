@@ -1,11 +1,11 @@
 import { SEARCH_PARAMETERS } from "../types";
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 //4-Mar-1989
 // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d' 
 
 export function buildXml({ username, password }: { username: string, password: string }, payload: SEARCH_PARAMETERS): string {
 
-    const REQUEST_ID = uuidv4().split("-").at(-1);
+    const REQUEST_ID = 1000;
 
     const xml = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/" xmlns:sil="http://schemas.datacontract.org/2004/07/SilverBladeWeb.Services">
     <soapenv:Header/>

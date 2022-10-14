@@ -1,5 +1,5 @@
 import { Base } from "../base";
-import { SEARCH_PARAMETERS, CustomDBJsonResponse } from "src/types";
+import { SEARCH_PARAMETERS, CustomDBJsonResponse } from "../types";
 import { buildXml } from "./helper"
 
 
