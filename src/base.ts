@@ -1,7 +1,9 @@
 import { Config } from "./types";
 import axios, { Axios } from "axios"
 import parser from "xml2json";
-import { DBResponse, DBResponseXML, CustomDBJsonResponse } from "./types"
+import { DBResponse, DBResponseXML, CustomDBJsonResponse} from "./types"
+
+import { isArray } from "./utils"
 
 
 
@@ -67,12 +69,27 @@ export abstract class Base {
             trim: true,
         }) as any as DBResponseXML;
 
+
+        // not found
+        if (parsed_xml.DATAPACKET.ReportDetails || parsed_xml.DATAPACKET["MERGER_NOTE?"]) {
+            return {
+                hasError: false,
+                errors: null,
+                results: [],
+                requestParams: parsed_xml.DATAPACKET.SearchDetails?.SearchDetails
+
+            }
+        }
+
         const isError = parsed_xml.DATAPACKET.HEADER["RESPONSE-TYPE"].DESCRIPTION == "Response Error" ? true : false;
 
+        const possibleError: any = parsed_xml.DATAPACKET.BODY["ERROR-LIST"]?.["ERROR-CODE"]!;
 
         return {
             hasError: isError,
-            results: isError ? parsed_xml.DATAPACKET.BODY["ERROR-LIST"]?.["ERROR-CODE"]! : parsed_xml.DATAPACKET.BODY["SEARCH-RESULT-LIST"]?.["SEARCH-RESULT-ITEM"]!
+            errors: isError ? (isArray(possibleError) ? possibleError : [possibleError]) : [],
+            results: !isError ? parsed_xml.DATAPACKET.BODY["SEARCH-RESULT-LIST"]?.["SEARCH-RESULT-ITEM"]! : [],
+            requestParams: isError ? null : parsed_xml.DATAPACKET.HEADER["REQUEST-PARAMETERS"]?.["REPORT-PARAMETERS"]!
 
         }
 
