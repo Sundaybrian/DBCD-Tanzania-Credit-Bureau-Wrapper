@@ -1,7 +1,7 @@
 import { Config } from "./types";
 import axios, { Axios } from "axios"
 import parser from "xml2json";
-import { DBResponse } from "src/types"
+import { DBResponse, DBResponseXML, CustomDBJsonResponse } from "src/types"
 
 
 
@@ -29,7 +29,7 @@ export abstract class Base {
 
     protected invoke<T>(
         payload: any
-    ): Promise<DBResponse> {
+    ): Promise<CustomDBJsonResponse> {
         // const config
         return this.client.post(this.baseUrl, payload).then((response) => {
 
@@ -41,12 +41,36 @@ export abstract class Base {
                 trim: true,
             }) as any as DBResponse;
 
-            return results;
+            return this.sanitizeResponse(results);
 
         }).catch(err => { throw err })
 
 
     }
 
+
+    private sanitizeResponse(results: DBResponse): CustomDBJsonResponse {
+        const xml = results["s:Envelope"]["s:Body"]["GetLiveCIRResponse"]["GetLiveCIRResult"][
+            "a:ResponseXML"
+        ];
+
+        let parsed_xml = parser.toJson(xml, {
+            object: true,
+            reversible: false,
+            coerce: false,
+            sanitize: true,
+            trim: true,
+        }) as any as DBResponseXML;
+
+        const isError = parsed_xml.DATAPACKET.HEADER["RESPONSE-TYPE"].DESCRIPTION == "Response Error" ? true : false;
+
+
+        return {
+            hasError: isError,
+            results: isError ? parsed_xml.DATAPACKET.BODY["ERROR-LIST"]?.["ERROR-CODE"]! : parsed_xml.DATAPACKET.BODY["SEARCH-RESULT-LIST"]?.["SEARCH-RESULT-ITEM"]!
+
+        }
+
+    }
 
 }
