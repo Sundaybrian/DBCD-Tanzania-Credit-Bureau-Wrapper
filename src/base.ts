@@ -16,7 +16,6 @@ export abstract class Base {
         this.baseUrl = config.baseUrl ?? "https://cweb.dnbtanzania.com/TanWebsite/Services/LiveRequestService.svc?wsdl";
 
         this.client = axios.create({
-            baseURL: this.baseUrl,
             headers: {
                 "Content-Type": "text/xml; charset=utf-8",
                 Accept: "*/*",
@@ -30,15 +29,12 @@ export abstract class Base {
         data: any
     ): Promise<T> {
         // const config
-        return this.client.post("", data).then(response => {
+        return this.client.post(this.baseUrl, data).then(response => {
             return response.data
         }).catch(err => { throw err })
 
 
     }
-
-
-
 
 
 }
