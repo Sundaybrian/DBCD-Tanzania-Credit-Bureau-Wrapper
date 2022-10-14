@@ -11,3 +11,13 @@ export function applyMixins(derivedCtor: any, constructors: any[]) {
         });
     });
 }
+
+
+export const isArray = function (a: any) {
+    return (!!a) && (a.constructor === Array);
+};
+
+
+export const isObject = function (a: any) {
+    return (!!a) && (a.constructor === Object);
+};
