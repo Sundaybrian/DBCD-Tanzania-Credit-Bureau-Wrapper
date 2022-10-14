@@ -60,3 +60,57 @@ export interface DBResponse {
 };
 
 
+export interface SEARCH_CONSUMER_RESULT {
+    "ENTITY-KEY": string;
+    "NAME": string;
+    "DOB": string;
+    "GENDER": string;
+    "NATIONALITY": string;
+    "IDENTIFIER-TYPE": string;
+    "IDENTIFIER-NUMBER": string;
+    "ADDRESS": string;
+    "MOBILE-NUMBER": string;
+    "MATCHED-PARAMETER": string;
+    "SEARCHSCORE": string;
+}
+
+
+export interface SEARCH_CONSUMER_RESULT_LIST {
+    
+    "SEARCH-RESULT-LIST": {
+        "SEARCH-RESULT-ITEM": Partial<SEARCH_CONSUMER_RESULT>[]
+    }
+}
+
+
+export interface DBERROR {
+    "ERROR-LIST": {
+        "ERROR-CODE": string[] | string;
+    }
+}
+
+
+export type DBResponseBody = DBERROR | SEARCH_CONSUMER_RESULT_LIST
+
+
+export interface DBResponseXML {
+    "DATAPACKET": {
+        "REQUEST-ID": string;
+        "HEADER": {
+            "RESPONSE-TYPE": {
+                "CODE"?: string;
+                "DESCRIPTION": string;
+            }
+            "REQUEST-PARAMETERS"?: {
+                "REPORT-PARAMETERS": {
+                    "SEARCH-REQUEST-ID": string;
+                    "REPORT-ID": string;
+                    "SUBJECT-TYPE": string;
+                    "RESPONSE-TYPE": string;
+                }
+            }
+        },
+        "BODY": DBResponseBody
+    }
+}
+
