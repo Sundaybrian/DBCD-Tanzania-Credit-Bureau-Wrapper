@@ -32,6 +32,11 @@ export interface SEARCH_PARAMETERS {
     PURPOSE_OF_INQUIRY: _PURPOSE_OF_INQUIRY
 }
 
+export interface GetReportDto {
+    SEARCH_REQUEST_ID: string,
+    ENTITY_KEY: string
+}
+
 
 export enum PURPOSE_OF_INQUIRY {
     "New Credit Application" = 1,
@@ -111,7 +116,7 @@ export interface NotFoundResponse {
 export interface CustomMultiHitReportReponse {
     hasError: boolean;
     errors: string[] | [];
-    results: Partial<SearchResultItem>[] | SingleHit ;
+    results: Partial<SearchResultItem>[] | SingleHit;
     requestParams: ReportParameters | null;
 }
 
