@@ -8,6 +8,7 @@ export interface Datapacket {
     BODY: Body
     ReportDetails?: NotFoundReportDetails;
     SearchDetails?: NotFoundSearch;
+    MERGER_NOTE?: string
 }
 
 export interface Header {

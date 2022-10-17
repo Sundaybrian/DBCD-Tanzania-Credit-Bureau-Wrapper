@@ -1,4 +1,4 @@
-import { SingleConsumerReportResponse, Datapacket } from "./consumer/types/single_report_types"
+import { SingleConsumerReportResponse, Datapacket as SingleHit } from "./consumer/types/single_report_types"
 import { MultiHitReportReponse, SearchResultItem, ReportParameters } from "./consumer/types/multi_hit_types";
 
 
@@ -110,12 +110,13 @@ export interface NotFoundResponse {
 
 export interface CustomMultiHitReportReponse {
     hasError: boolean;
-    errors: string[] | null;
-    results: Partial<SearchResultItem>[] | null;
+    errors: string[] | [];
+    results: Partial<SearchResultItem>[] | SingleHit ;
     requestParams: ReportParameters | null;
 }
 
-export interface CustomSingleHitReportReponse extends Datapacket { };
 
 export type DunAndBResponse = MultiHitReportReponse | SingleConsumerReportResponse;
+
+export type CustomReponse = CustomMultiHitReportReponse;
 
