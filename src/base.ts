@@ -1,7 +1,7 @@
 import { Config } from "./types";
 import axios, { Axios } from "axios"
 import parser from "xml2json";
-import { DBResponse, DBResponseXML, CustomDBJsonResponse} from "./types"
+import { DBResponse, DBResponseXML, CustomDBJsonResponse, DunAndBResponse } from "./types"
 
 import { isArray } from "./utils"
 
@@ -71,7 +71,7 @@ export abstract class Base {
 
 
         // not found
-        if (parsed_xml.DATAPACKET.ReportDetails || parsed_xml.DATAPACKET["MERGER_NOTE?"]) {
+        if (parsed_xml.DATAPACKET.ReportDetails || parsed_xml.DATAPACKET["MERGER_NOTE"]) {
             return {
                 hasError: false,
                 errors: null,

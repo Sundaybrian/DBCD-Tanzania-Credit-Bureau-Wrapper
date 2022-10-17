@@ -1,10 +1,12 @@
+import { SingleConsumerReportResponse, Datapacket } from "./consumer/types/single_report_types"
+import { MultiHitReportReponse, SearchResultItem, ReportParameters } from "./consumer/types/multi_hit_types";
+
 
 export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
     Pick<T, Exclude<keyof T, Keys>>
     & {
         [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
     }[Keys]
-
 
 
 export type Config = {
@@ -28,17 +30,14 @@ export interface SEARCH_PARAMETERS {
     ACCOUNTNUMBER?: string,
     CUSTOMERID?: string,
     PURPOSE_OF_INQUIRY: _PURPOSE_OF_INQUIRY
-
-
 }
 
-export enum PURPOSE_OF_INQUIRY {
 
+export enum PURPOSE_OF_INQUIRY {
     "New Credit Application" = 1,
     "New Guarantor",
     "Review of Existing Customer",
     "Regulatory Audit",
-
 }
 
 
@@ -46,7 +45,6 @@ export enum SUBJECT_TYPE {
     Consumer = 1,
     Commercial
 }
-
 
 // will be a union type i guess
 export interface DBResponse {
@@ -69,92 +67,11 @@ export interface DBResponse {
 };
 
 
-export interface SEARCH_CONSUMER_RESULT {
-    "ENTITY-KEY": string;
-    "NAME": string;
-    "DOB": string;
-    "GENDER": string;
-    "NATIONALITY": string;
-    "IDENTIFIER-TYPE": string | {};
-    "IDENTIFIER-NUMBER": string | {};
-    "ADDRESS": string;
-    "MOBILE-NUMBER": string;
-    "MATCHED-PARAMETER": string;
-    "SEARCHSCORE": string;
-}
-
-
-export interface SEARCH_CONSUMER_RESULT_LIST {
-
-    "SEARCH-RESULT-LIST": {
-        "SEARCH-RESULT-ITEM": Partial<SEARCH_CONSUMER_RESULT>[]
-    }
-}
-
-
 export interface DBERROR {
     "ERROR-LIST": {
         "ERROR-CODE": string[];
     }
 }
-
-
-
-
-export interface DBResponseBody {
-    "SEARCH-RESULT-LIST"?: {
-        "SEARCH-RESULT-ITEM": Partial<SEARCH_CONSUMER_RESULT>[]
-    }
-
-    "ERROR-LIST"?: {
-        "ERROR-CODE": string[] | string;
-    }
-};
-
-
-export interface RequestParameters {
-    "REPORT-PARAMETERS": {
-        "SEARCH-REQUEST-ID": string;
-        "REPORT-ID": string;
-        "SUBJECT-TYPE": string;
-        "RESPONSE-TYPE": string;
-    }
-}
-
-
-export interface ReportParameters {
-
-    "SEARCH-REQUEST-ID": string;
-    "REPORT-ID": string;
-    "SUBJECT-TYPE": string;
-    "RESPONSE-TYPE": string;
-
-}
-
-export interface DBResponseXML {
-    "DATAPACKET": {
-        "REQUEST-ID": string;
-        "MERGER_NOTE?": any;
-        "ReportDetails"?: NotFoundReportDetails;
-        "SearchDetails"?: NotFoundSearch;
-        "HEADER": {
-            "RESPONSE-TYPE": {
-                "CODE"?: string;
-                "DESCRIPTION": string;
-            }
-            "REQUEST-PARAMETERS"?: RequestParameters;
-        },
-        "BODY": DBResponseBody;
-    }
-}
-
-export interface CustomDBJsonResponse {
-    hasError: boolean;
-    errors: string[] | null;
-    results: Partial<SEARCH_CONSUMER_RESULT>[] | null;
-    requestParams: ReportParameters | null;
-}
-
 
 
 export interface NotFoundReportDetails {
@@ -169,7 +86,6 @@ export interface NotFoundReportDetails {
 
 }
 
-
 export interface NotFoundSearch {
 
     "SearchDetails": {
@@ -182,7 +98,6 @@ export interface NotFoundSearch {
 
 }
 
-
 export interface NotFoundResponse {
     "DATAPACKET": {
         "ReportDetails": NotFoundReportDetails;
@@ -193,4 +108,14 @@ export interface NotFoundResponse {
 }
 
 
+export interface CustomMultiHitReportReponse {
+    hasError: boolean;
+    errors: string[] | null;
+    results: Partial<SearchResultItem>[] | null;
+    requestParams: ReportParameters | null;
+}
+
+export interface CustomSingleHitReportReponse extends Datapacket { };
+
+export type DunAndBResponse = MultiHitReportReponse | SingleConsumerReportResponse;
 

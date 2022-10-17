@@ -39,7 +39,7 @@ export interface Body {
 }
 
 export interface SearchResultList {
-    "SEARCH-RESULT-ITEM": SearchResultItem[]
+    "SEARCH-RESULT-ITEM": Partial<SearchResultItem>[]
 }
 
 export interface SearchResultItem {
