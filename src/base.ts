@@ -116,11 +116,24 @@ export abstract class Base {
 
     private multiHit(parsed_xml: MultiHitReportReponse) {
 
+        let resultsWithRequestID = [];
+        const results = parsed_xml.DATAPACKET.BODY["SEARCH-RESULT-LIST"]?.["SEARCH-RESULT-ITEM"]!;
+
+        const requestParams = parsed_xml.DATAPACKET.HEADER["REQUEST-PARAMETERS"]?.["REPORT-PARAMETERS"]!;
+
+        for (let index = 0; index < results.length; index++) {
+            const element = results[index];
+            resultsWithRequestID.push({
+                ...element,
+                "SEARCH-REQUEST-ID": requestParams['SEARCH-REQUEST-ID']
+            })
+        }
+
         return {
             hasError: false,
             errors: [],
-            results: parsed_xml.DATAPACKET.BODY["SEARCH-RESULT-LIST"]?.["SEARCH-RESULT-ITEM"]!,
-            requestParams: parsed_xml.DATAPACKET.HEADER["REQUEST-PARAMETERS"]?.["REPORT-PARAMETERS"]!,
+            results: resultsWithRequestID,
+            requestParams,
             kind: ReportType.consumerMultiHit
 
         }

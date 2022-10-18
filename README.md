@@ -95,6 +95,7 @@ const client = new DB({
   password: process.env.CREDIT_INFO_PASSWORD,
 });
 
+// 1
 client
   .searchConsumerMultiHit({
     NAME: "Paul SIRIL MINJA",
@@ -112,10 +113,27 @@ client
 
 ### SingleHit 
 
+```ts
+// 2: Pull report for a client using entity key and search request id from step 1
+
+client.getReportConsumer({
+    ENTITY_KEY: '1856250',
+    SEARCH_REQUEST_ID: '3024716'
+}).then(response => {
+    console.log({
+      response
+    })
+})
+
+```
+
 
 ## TODO
 
 1. [x] SearchMultiHit Report
-2. [ ] SingleHit Report
+2. [x] SingleHit Report
+3. [ ] Error Handling
+4. [ ] Commercial Search
+
 
 

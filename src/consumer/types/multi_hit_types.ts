@@ -55,6 +55,7 @@ export interface SearchResultItem {
     "MOBILE-NUMBER": string
     "MATCHED-PARAMETER": string
     SEARCHSCORE: string
+    "SEARCH-REQUEST-ID"?: string
 }
 
 
