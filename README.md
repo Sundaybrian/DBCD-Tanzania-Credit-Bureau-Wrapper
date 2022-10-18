@@ -130,6 +130,7 @@ client.getReportConsumer({
 
 ## TODO
 
+0. [ ] expose types
 1. [x] SearchMultiHit Report
 2. [x] SingleHit Report
 3. [ ] Error Handling
