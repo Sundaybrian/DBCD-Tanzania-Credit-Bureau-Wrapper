@@ -1,7 +1,7 @@
 import { Config } from "./types";
 import axios, { Axios } from "axios"
 import parser from "xml2json";
-import { DBResponse, CustomMultiHitReportReponse, DunAndBResponse } from "./types"
+import { DBResponse, CustomMultiHitReportReponse, DunAndBResponse, ReportType } from "./types"
 import { MultiHitReportReponse } from "./consumer/types/multi_hit_types";
 import { Datapacket as SingleHit } from "./consumer/types/single_report_types"
 import { isArray } from "./utils"
@@ -52,13 +52,13 @@ export abstract class Base {
             return this.sanitizeResponse(results);
 
         }).catch(err => {
-            console.log({err})
 
             return {
                 hasError: true,
-                errors: [err.response.data],
+                errors: [err.response.status],
                 results: [],
-                requestParams: null
+                requestParams: null,
+                kind: ReportType.errorHit
 
             }
         })
@@ -107,7 +107,8 @@ export abstract class Base {
             hasError: false,
             errors: [],
             results: parsed_xml.DATAPACKET as SingleHit,
-            requestParams: null
+            requestParams: null,
+            kind: ReportType.consumerReport
 
         }
 
@@ -119,7 +120,8 @@ export abstract class Base {
             hasError: false,
             errors: [],
             results: parsed_xml.DATAPACKET.BODY["SEARCH-RESULT-LIST"]?.["SEARCH-RESULT-ITEM"]!,
-            requestParams: parsed_xml.DATAPACKET.HEADER["REQUEST-PARAMETERS"]?.["REPORT-PARAMETERS"]!
+            requestParams: parsed_xml.DATAPACKET.HEADER["REQUEST-PARAMETERS"]?.["REPORT-PARAMETERS"]!,
+            kind: ReportType.consumerMultiHit
 
         }
     }
@@ -133,7 +135,8 @@ export abstract class Base {
             hasError: isError,
             errors: isError ? (isArray(possibleError) ? possibleError : [possibleError]) : [],
             results: [],
-            requestParams: isError ? null : parsed_xml.DATAPACKET.HEADER["REQUEST-PARAMETERS"]?.["REPORT-PARAMETERS"]!
+            requestParams: isError ? null : parsed_xml.DATAPACKET.HEADER["REQUEST-PARAMETERS"]?.["REPORT-PARAMETERS"]!,
+            kind: ReportType.errorHit
 
         }
     }
@@ -143,7 +146,8 @@ export abstract class Base {
             hasError: false,
             errors: [],
             results: [],
-            requestParams: parsed_xml.DATAPACKET.SearchDetails?.SearchDetails
+            requestParams: parsed_xml.DATAPACKET.SearchDetails?.SearchDetails,
+            kind: ReportType.notFoundHit
 
         }
     }

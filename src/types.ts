@@ -51,6 +51,14 @@ export enum SUBJECT_TYPE {
     Commercial
 }
 
+
+export enum ReportType {
+    "consumerReport" = "consumerReport",
+    "consumerMultiHit" = "consumerMultiHit",
+    "notFoundHit" = "notFoundHit",
+    "errorHit" = "errorHit"
+
+}
 // will be a union type i guess
 export interface DBResponse {
     "s:Envelope": {
@@ -118,10 +126,13 @@ export interface CustomMultiHitReportReponse {
     errors: string[] | [];
     results: Partial<SearchResultItem>[] | SingleHit;
     requestParams: ReportParameters | null;
+    kind: ReportKind
 }
 
 
 export type DunAndBResponse = MultiHitReportReponse | SingleConsumerReportResponse;
 
 export type CustomReponse = CustomMultiHitReportReponse;
+
+export type ReportKind = "consumerReport" | "consumerMultiHit" | "notFoundHit" | "errorHit"
 
