@@ -51,7 +51,17 @@ export abstract class Base {
 
             return this.sanitizeResponse(results);
 
-        }).catch(err => { throw err })
+        }).catch(err => {
+            console.log({err})
+
+            return {
+                hasError: true,
+                errors: [err.response.data],
+                results: [],
+                requestParams: null
+
+            }
+        })
 
 
     }

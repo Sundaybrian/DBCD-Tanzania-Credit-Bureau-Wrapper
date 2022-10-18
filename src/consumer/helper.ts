@@ -58,8 +58,7 @@ export function buildXml({ username, password }: { username: string, password: s
 export function buildXmlReport({ username, password }: { username: string, password: string }, payload: GetReportDto) {
 
     const xml = `
-        <?xml version="1.0" encoding="utf-8"?>
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/" xmlns:sil="http://schemas.datacontract.org/2004/07/SilverBladeWeb.Services">
+       <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/" xmlns:sil="http://schemas.datacontract.org/2004/07/SilverBladeWeb.Services">
     <soapenv:Header/>
     <soapenv:Body>
         <tem:GetLiveCIR>
@@ -71,7 +70,7 @@ export function buildXmlReport({ username, password }: { username: string, passw
                 <sil:Password>${password}</sil:Password>
                 <!--Optional:-->
                 <sil:RequestXML>
-                    <![CDATA[<REQUEST REQUEST_ID="1">
+                    <![CDATA[<REQUEST REQUEST_ID="1000">
                     <REQUEST_PARAMETERS>
                     <REPORT_PARAMETERS SEARCH_REQUEST_ID="${payload.SEARCH_REQUEST_ID}" REPORT_ID="14616" SUBJECT_TYPE="1" RESPONSE_TYPE="1" />
                    </REQUEST_PARAMETERS>
